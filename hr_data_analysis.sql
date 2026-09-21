@@ -625,7 +625,7 @@ where s.salary >
       (select avg(s2.salary)
       from salary as s2
       join dept_emp as de2
-      on s2.emp_no-de2.emp_no
+      on s2.emp_no=de2.emp_no
       where de2.dept_no=de.dept_no)
 order by d.dept_name,s.salary desc;
 
@@ -721,7 +721,7 @@ where s.salary <
       (select avg(s2.salary)
       from salary as s2
       join dept_emp as de2
-      on s2.emp_no-de2.emp_no
+      on s2.emp_no=de2.emp_no
       where de2.dept_no=de.dept_no)
 order by d.dept_name,s.salary desc;
 
