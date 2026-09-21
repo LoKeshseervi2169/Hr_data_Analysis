@@ -189,5 +189,5 @@ HR-Analytics-SQL/
 
 Interests: Data Analytics | SQL | Excel | Power BI | Business Analytics
 
-- LinkedIn: 
+- LinkedIn: www.linkedin.com/in/lokesh-seervi-ba5020370
 - GitHub: https://github.com/LoKeshseervi2169
