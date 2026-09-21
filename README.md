@@ -4,7 +4,7 @@
 
 This project focuses on HR data analysis using MySQL and SQL. The goal is to analyze employee information, departments, salaries, job titles, managers, and employee history to generate meaningful business insights.
 
-The project contains 40 SQL queries, ranging from basic data analysis to advanced SQL techniques.
+The project contains 50 SQL queries, ranging from basic data analysis to advanced SQL techniques.
 
 🎯 Objectives
 
@@ -19,16 +19,16 @@ The project contains 40 SQL queries, ranging from basic data analysis to advance
 
 The project uses a relational HR employee dataset consisting of the following tables:
 
-| Table          | Description                              |
-| -------------- | ---------------------------------------- |
-| `employees`    | Employee personal and employment details |
-| `departments`  | Department information                   |
-| `dept_emp`     | Employee-department assignments          |
-| `dept_manager` | Department manager information           |
-| `titles`       | Employee job title history               |
-| `salary`       | Employee salary history                  |
+| Table        | Description                              |
+|--------------| -----------------------------------------|
+| employees    | Employee personal and employment details |
+| departments  | Department information                   |
+| dept_emp     | Employee-department assignments          |
+| dept_manager | Department manager information           |
+| titles       | Employee job title history               |
+| salary       | Employee salary history                  |
 
-Database: `hr_db`
+Database: hr_db
 
  🛠️ Tools & Technologies
 
@@ -51,7 +51,7 @@ Database: `hr_db`
 
  📋 Analysis Areas
 
-The 40 queries cover:
+The 50 queries cover:
 
 1. Employee Analysis
 2. Department Analysis
