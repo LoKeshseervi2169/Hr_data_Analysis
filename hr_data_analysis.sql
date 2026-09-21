@@ -633,7 +633,7 @@ order by d.dept_name,s.salary desc;
 -- Q43.Find the count of employees in each department who earn more than the company’s average salary.
 
 select d.dept_name,
-	     count(distinct e.emp_no) as employees_count
+	   count(distinct e.emp_no) as employees_count
 from employees as e
 join salary as s
 on e.emp_no=s.emp_no
@@ -685,7 +685,7 @@ select dept_no,
        salary
 from 
       (select d.dept_no,
-	      d.dept_name,
+	          d.dept_name,
               e.emp_no,
               e.first_name,
               e.last_name,
