@@ -75,10 +75,18 @@ Examples include:
  📁 Repository Structure
 
 ```text
-HR-SQL-Analytics/
+HR-Data_Analysis/
 │
 ├── README.md
-└── HR_Analytics_SQL.sql
+├── hr_data_analysis.sql
+│
+└── data/
+    ├── employees.csv
+    ├── departments.csv
+    ├── dept_emp.csv
+    ├── dept_manager.csv
+    ├── salary.csv
+    └── titles.csv
 ```
 
  🚀 Skills Demonstrated
