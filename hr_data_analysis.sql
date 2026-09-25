@@ -2,10 +2,10 @@
 -- HR DATABASE ANALYSIS | MySQL Portfolio Project
 -- ================================================
 
-
 -- ========================
 -- Creation of Database
 -- ========================
+
 Create database if not exists hr_db;
 use hr_db;
 
@@ -20,15 +20,15 @@ create table if not exists employees (
     gender VARCHAR(1) DEFAULT NULL,
     birth_date DATE NOT NULL,
     hire_date DATE NOT NULL,
-    PRIMARY KEY (emp_no));
-
+    PRIMARY KEY (emp_no)
+);
 
 Create table if not exists departments (
     dept_no VARCHAR(50) NOT NULL,
     dept_name VARCHAR(50) NOT NULL,
     PRIMARY KEY (dept_no),
-    UNIQUE (dept_name));
-
+    UNIQUE (dept_name)
+);
 
 Create table if not exists dept_emp(
     emp_no INT NOT NULL,
@@ -37,8 +37,8 @@ Create table if not exists dept_emp(
     to_date DATE NOT NULL,
     PRIMARY KEY (emp_no, dept_no),
     FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
-    FOREIGN KEY (dept_no) REFERENCES departments(dept_no));
-
+    FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
+);
 
 Create table if not exists dept_manager (
     emp_no INT NOT NULL,
@@ -47,8 +47,8 @@ Create table if not exists dept_manager (
     to_date DATE NOT NULL,
     PRIMARY KEY (emp_no, dept_no),
     FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
-    FOREIGN KEY (dept_no) REFERENCES departments(dept_no));
-
+    FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
+);
 
 Create table if not exists salary (
     emp_no INT NOT NULL,
@@ -56,8 +56,8 @@ Create table if not exists salary (
     from_date DATE NOT NULL,
     to_date DATE NOT NULL,
     PRIMARY KEY (emp_no, from_date),
-    FOREIGN KEY (emp_no) REFERENCES employees(emp_no));
-
+    FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+);
 
 Create table if not exists titles (
     emp_no INT NOT NULL,
@@ -65,7 +65,8 @@ Create table if not exists titles (
     from_date DATE NOT NULL,
     to_date DATE NOT NULL,
     PRIMARY KEY (emp_no, title, from_date),
-    FOREIGN KEY (emp_no) REFERENCES employees(emp_no));
+    FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+);
 
 
 -- =====================================
@@ -86,8 +87,7 @@ from departments;
 
 -- Q3. Find the count of male and female employees.
 
-select gender ,
-       count(gender) as employees_count 
+select gender ,count(gender) as employees_count 
 from employees 
 group by gender 
 order by employees_count;
@@ -102,9 +102,7 @@ order by first_name asc;
 
 -- Q5. Display the first name, last name, and gender of employees.
 
-select first_name,
-       last_name,
-       gender
+select first_name,last_name,gender
  from employees;
 
 
@@ -161,9 +159,12 @@ select d.dept_no,
        d.dept_name,
        count(e.emp_no)as employees_count 
 from departments as d 
-left join dept_emp as de on d.dept_no=de.dept_no 
-left join employees as e on de.emp_no=e.emp_no
-group by d.dept_no,d.dept_name 
+left join dept_emp as de 
+on d.dept_no=de.dept_no 
+left join employees as e 
+on de.emp_no=e.emp_no
+group by d.dept_no,
+         d.dept_name 
 order by employees_count desc;
 
 
@@ -173,9 +174,12 @@ select d.dept_no,
        d.dept_name,
        count(e.emp_no)as employees_count 
 from departments as d 
-left join dept_emp as de on d.dept_no=de.dept_no 
-left join employees as e on de.emp_no=e.emp_no
-group by d.dept_no,d.dept_name 
+left join dept_emp as de 
+on d.dept_no=de.dept_no 
+left join employees as e 
+on de.emp_no=e.emp_no
+group by d.dept_no,
+         d.dept_name 
 order by employees_count desc limit 1;
 
 
@@ -185,21 +189,26 @@ select d.dept_no,
        d.dept_name,
        count(e.emp_no)as employees_count 
 from departments as d 
-left join dept_emp as de on d.dept_no=de.dept_no 
-left join employees as e on de.emp_no=e.emp_no
-group by d.dept_no,d.dept_name 
+left join dept_emp as de 
+on d.dept_no=de.dept_no 
+left join employees as e 
+on de.emp_no=e.emp_no
+group by d.dept_no,
+         d.dept_name 
 order by employees_count asc limit 1;
 
 
 -- Q.14 Find the count of male and female employees in each department.
 
 select d.dept_name,
-       e.gender,
+	   e.gender,
        count(e.emp_no)as employees_count 
 from departments as d 
 left join dept_emp as de on d.dept_no=de.dept_no 
 left join employees as e on de.emp_no=e.emp_no
-group by d.dept_no,d.dept_name,e.gender 
+group by d.dept_no,
+         d.dept_name,
+         e.gender 
 order by dept_name,e.gender asc;	
 
 
@@ -209,8 +218,14 @@ select d.dept_no,
        d.dept_name,
        count(e.emp_no)as employees_count 
 from departments as d 
-left join dept_emp as de on d.dept_no=de.dept_no left join employees as e on de.emp_no=e.emp_no
-group by d.dept_no,d.dept_name having employees_count >10 order by dept_no,dept_name asc;
+left join dept_emp as de 
+on d.dept_no=de.dept_no 
+left join employees as e 
+on de.emp_no=e.emp_no
+group by d.dept_no,
+		 d.dept_name 
+having employees_count >10 
+order by dept_no,dept_name asc;
 
 
 -- Q.16 Calculate the average employee tenure in each department.
@@ -219,11 +234,12 @@ select d.dept_no,
        d.dept_name,
        round(avg(datediff(case when de.to_date='9999-01-01' 
        then curdate()
-       else de.to_date
+	   else de.to_date
        end,de.from_date))/365,2)as avg_tenure_years 
 from dept_emp as de 
 join departments as d on de.dept_no=d.dept_no
-group by d.dept_no,d.dept_name 
+group by d.dept_no,
+         d.dept_name 
 order by avg_tenure_years desc;
 
 
@@ -235,7 +251,8 @@ select d.dept_no,
 from dept_emp as de 
 join departments as d on de.dept_no=d.dept_no
 where de.to_date='9999-01-01' 
-group by d.dept_no,d.dept_name
+group by d.dept_no,
+         d.dept_name
 order by current_employees_count desc;
 
 
@@ -249,7 +266,8 @@ join dept_emp as de
 on e.emp_no=de.emp_no
 join departments as d
 on de.dept_no=d.dept_no
-group by d.dept_no,d.dept_name
+group by d.dept_no,
+         d.dept_name
 having avg(year(hire_date))>2005
 order by avg_hire_year desc;
 
@@ -258,7 +276,7 @@ order by avg_hire_year desc;
 
 select d.dept_no,
        d.dept_name,
-       e.emp_no,
+	   e.emp_no,
        e.first_name,
        e.last_name,
        e.hire_date
@@ -268,22 +286,24 @@ on e.emp_no=de.emp_no
 join departments as d
 on de.dept_no=d.dept_no
 where e.hire_date =
-(select  min(e2.hire_date)
-from employees as e2
-join dept_emp as de2
-on e2.emp_no=de2.emp_no
-where de2.dept_no=de.dept_no);
+      (select  min(e2.hire_date)
+       from employees as e2
+	   join dept_emp as de2
+	   on e2.emp_no=de2.emp_no
+       where de2.dept_no=de.dept_no);
 
 
 -- Q20. Find employees who have more than 1 title.
 
 select e.emp_no,
-       concat(e.first_name," ",e.last_name)as employee_name,
+	   concat(e.first_name," ",e.last_name)as employee_name,
        count(distinct t.title) as title_count
 from employees as e 
 join titles as t
 on e.emp_no=t.emp_no
-group by e.emp_no,e.first_name,e.last_name
+group by e.emp_no,
+         e.first_name,
+         e.last_name
 having count(distinct t.title)>1;
 
 
@@ -301,8 +321,8 @@ from salary;
 -- Q22. Find the highest salary and lowest salary.
 
 select 
-max(salary)as highest_salary,
-min(salary)as lowest_salary
+       max(salary)as highest_salary,
+       min(salary)as lowest_salary
 from salary;
 
 
@@ -315,7 +335,9 @@ select e.emp_no,
 from employees as e
 join salary as s
 on e.emp_no=s.emp_no
-group by e.emp_no,e.first_name,e.last_name
+group by e.emp_no,
+         e.first_name,
+         e.last_name
 order by highest_salary desc limit 10;
 
 
@@ -328,25 +350,27 @@ from departments as d
 join dept_emp as de
 on d.dept_no=de.dept_no
 join
- (select emp_no,max(salary) as emp_salary
- from salary
- group by emp_no)as s
+(select emp_no,max(salary) as emp_salary
+from salary
+group by emp_no)as s
 on de.emp_no=s.emp_no
-group by d.dept_no,d.dept_name
+group by d.dept_no,
+         d.dept_name
 order by average_salary desc;
 
 
 -- Q25. Find the highest salary in each department.
 
 select d.dept_no,
-       d.dept_name,
+	   d.dept_name,
        max(s.salary) as highest_salary
 from departments as d
 join dept_emp as de
 on d.dept_no=de.dept_no
 join salary as s
 on de.emp_no=s.emp_no
-group by d.dept_no,d.dept_name
+group by d.dept_no,
+         d.dept_name
 order by highest_salary desc;
 
 
@@ -360,7 +384,8 @@ join dept_emp as de
 on d.dept_no=de.dept_no
 join salary as s
 on de.emp_no=s.emp_no
-group by d.dept_no,d.dept_name
+group by d.dept_no,
+         d.dept_name
 order by lowest_salary asc;
 
 
@@ -374,7 +399,8 @@ order by lowest_salary asc;
  on d.dept_no=de.dept_no
  join salary as s
  on de.emp_no=s.emp_no
- group by d.dept_no,d.dept_name
+ group by d.dept_no,
+          d.dept_name
  having avg_salary >
  (select avg(salary) 
  from salary)
@@ -384,10 +410,11 @@ order by lowest_salary asc;
  -- Q28. Rank employees based on salary.
  
 select e.emp_no,
-	   e.first_name,
-	   e.last_name,s.salary,
+       e.first_name,
+       e.last_name,
+       s.salary,
        dense_rank()
-       over(order by s.salary desc) as salary_rank
+	   over(order by s.salary desc) as salary_rank
 from employees as e
 join salary as s
 on e.emp_no=s.emp_no
@@ -397,27 +424,26 @@ order by salary_rank;
 -- Q29. Find the top 3 highest-paid employees in each department.
 
 select dept_no,
-       dept_name,
+	   dept_name,
        emp_no,
        concat(first_name," ",last_name)as employee_name,
        salary
 from
-    (select d.dept_no,
+	(select d.dept_no,
             d.dept_name,
             e.emp_no,
             e.first_name,
             e.last_name,
             s.salary,
-            row_number()
-            over (partition by d.dept_no order by s.salary desc)as rn
-from departments as d
-join dept_emp as de
-on d.dept_no=de.dept_no
-join salary as s
-on de.emp_no=s.emp_no
-join employees as e
-on s.emp_no=e.emp_no
-)as ranked
+	  row_number()over (partition by d.dept_no order by s.salary desc)as rn
+      from departments as d
+	  join dept_emp as de
+	  on d.dept_no=de.dept_no
+      join salary as s
+      on de.emp_no=s.emp_no
+      join employees as e
+      on s.emp_no=e.emp_no
+      )as ranked
 where rn<=3
 order by dept_no,salary desc;
 
@@ -428,15 +454,16 @@ select emp_no,
        concat(first_name," ",last_name)as employee_name,
        salary
 from(
-      select e.emp_no,
-	         e.first_name,
-	         e.last_name,s.salary,
-             dense_rank() 
-             over(order by s.salary desc)as salary_rank
-      from salary as s
-      join employees as e
-      on s.emp_no=e.emp_no
-      ) ranked
+	 select e.emp_no,
+            e.first_name,
+            e.last_name,
+            s.salary,
+            dense_rank() 
+            over(order by s.salary desc)as salary_rank
+            from salary as s
+            join employees as e
+            on s.emp_no=e.emp_no
+            ) as ranked
 where salary_rank=2;
 
 
@@ -474,11 +501,13 @@ on e.emp_no=t.emp_no;
 -- Q33.Display each employee's full name and highest salary received.
 
 select concat(e.first_name," ",e.last_name)as full_name,
-       max(s.salary)as highest_salary
+	   max(s.salary)as highest_salary
 from employees as e
 join salary as s
 on e.emp_no=s.emp_no
-group by e.emp_no,e.first_name,e.last_name
+group by e.emp_no,
+         e.first_name,
+         e.last_name
 order by highest_salary;
 
 
@@ -507,15 +536,17 @@ order by e.emp_no,s.from_date;
 -- Q35. Find the name of the manager of each department.
 
 select dm.emp_no,
-       d.dept_no,
+	   d.dept_no,
        d.dept_name,
-       concat(e.first_name," ",e.last_name)as manager_name
+	   concat(e.first_name," ",e.last_name)as manager_name
 from departments as d
 join dept_manager as dm
 on d.dept_no=dm.dept_no
 join employees as e
 on dm.emp_no=e.emp_no
-group by dm.emp_no,dm.dept_no,d.dept_name
+group by dm.emp_no,
+         dm.dept_no,
+         d.dept_name
 order by manager_name;
 
 
@@ -539,7 +570,7 @@ order by dm.emp_no,s.from_date;
 -- Q37. Find employees who are also managers of a department.
 
 select e.emp_no,
-       concat(e.first_name, " ", e.last_name) as employee_name,
+	   concat(e.first_name, " ", e.last_name) as employee_name,
        d.dept_no,
        d.dept_name
 from departments as d
@@ -553,8 +584,7 @@ on e.emp_no = dm.emp_no;
 
 -- Q38. Find employees who are not currently assigned to any department.
 
-select e.emp_no,
-       concat(e.first_name," ",e.last_name)as employee_name
+select e.emp_no,concat(e.first_name," ",e.last_name)as employee_name
 from employees as e
 left join dept_emp as de
 on e.emp_no=de.emp_no
@@ -565,9 +595,11 @@ where de.emp_no is null;
 
 select d.dept_no,
        d.dept_name,
-       de.from_date as dept_from,de.to_date as dept_to,
+	   de.from_date as dept_from,de.to_date as dept_to,
        concat(e.first_name, " ",e.last_name)as employee_name,
-       t.title,t.from_date as title_from,t.to_date as title_to
+       t.title,
+       t.from_date as title_from,
+       t.to_date as title_to
 from departments as d
 join dept_emp as de
 on d.dept_no=de.dept_no
@@ -582,7 +614,7 @@ order by e.emp_no,de.from_date,t.from_date;
 
 select e.emp_no,d.dept_no,d.dept_name,de.from_date,de.to_date,
        concat(e.first_name," ",e.last_name)as employee_name,
-	     s.salary,s.from_date,s.to_date
+	   s.salary,s.from_date,s.to_date
 from departments as d
 join dept_emp as de
 on d.dept_no=de.dept_no
@@ -596,7 +628,7 @@ order by d.dept_name,de.from_date,s.salary,s.from_date;
 -- Q41.Find employees who earn more than the company’s average salary.
 
 select e.emp_no,
-	     concat(e.first_name," ",e.last_name) as employee_name,
+	   concat(e.first_name," ",e.last_name) as employee_name,
        round(avg(s.salary),2)as avg_salary
 from employees as e
 join salary as s
@@ -625,7 +657,7 @@ where s.salary >
       (select avg(s2.salary)
       from salary as s2
       join dept_emp as de2
-      on s2.emp_no=de2.emp_no
+      on s2.emp_no-de2.emp_no
       where de2.dept_no=de.dept_no)
 order by d.dept_name,s.salary desc;
 
@@ -685,7 +717,7 @@ select dept_no,
        salary
 from 
       (select d.dept_no,
-	          d.dept_name,
+	      d.dept_name,
               e.emp_no,
               e.first_name,
               e.last_name,
@@ -721,7 +753,7 @@ where s.salary <
       (select avg(s2.salary)
       from salary as s2
       join dept_emp as de2
-      on s2.emp_no=de2.emp_no
+      on s2.emp_no-de2.emp_no
       where de2.dept_no=de.dept_no)
 order by d.dept_name,s.salary desc;
 
